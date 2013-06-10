@@ -9,7 +9,7 @@
     <name>TLV TVM</name>
 
     <description>
-       
+       Application TLV
     </description>
 
     <author href="http://www.angeliscom.fr" email="contact@angeliscom.fr">
@@ -58,9 +58,8 @@ permission on your app, which PhoneGap requires.
 	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
  
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
 	<plugin name="Geolocation" value="CDVLocation" />
 
