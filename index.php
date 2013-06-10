@@ -426,7 +426,7 @@
 		var fluxMeteo;
 		var AffMeteo;
 		
-		 
+		/* 
 		$.ajax({
 			url:'proxy.php',
 			dataType:'xml',
@@ -449,25 +449,7 @@
 			   
 			   
 			   ///traitement des pictos
-			   /*
-			   soleil = Ciel d&eacute;gag&eacute;
-				voile = Ciel voil&eacute;
-				nuageux = Ciel nuageux
-				couvert = Ciel couvert
-				brouillard = couvert
-				brouillardgivrant = couvert
-				neifefaible = averseneige
-				neigemoderer = averseneige
-				neigeforte = averseneige
-				pluiefaible = Pluie faible
-				pluiemoderer = pluiefaible
-				pluieforte = pluieforte
-				verglas = Verglas
-				averse = pluiefaible
-				averseneige = averseneige
-				orageloc =orageloc
-				oragefort = Violents orages
-				*/
+			  
 				$("img.soleil").attr('src','img/meteo/soleil.png');
 				$("img.voile").attr('src','img/meteo/voile.png');
 				$("img.nuageux").attr('src','img/meteo/nuageux.png');
@@ -493,7 +475,7 @@
 			error:function() {
 				alert("Aucun flux trouv&eacute;");
 			}
-		});
+		});*/
       
 		 
 		
@@ -675,7 +657,7 @@ $("#btnHoraireGo").click(function(){
 		var jour = DateTxt[0];
 		var mois = DateTxt[1];
 		var an = DateTxt[2];
-		
+		/*
 		$.ajax({
 		  url: 'checkHoraire.php',
 		  type: "POST",
@@ -683,7 +665,7 @@ $("#btnHoraireGo").click(function(){
 		  success: function(htmlReturn) {
 			$('#infoHoraire').html(htmlReturn);
  		  }
-		});
+		});*/
 	
 })
 
