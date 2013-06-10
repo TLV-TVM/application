@@ -30,11 +30,11 @@
 		var IciLong;
 		var map = null; 
 	
-		if (navigator.geolocation){
+		/*if (navigator.geolocation){
 	 	  navigator.geolocation.getCurrentPosition(successCallback, errorCallback, { maximumAge: 3000, timeout:3000, enableHighAccuracy: true });
 		}else{
 		  alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
-		}   
+		} */  
 		
 	 	
 		function successCallback(position){
