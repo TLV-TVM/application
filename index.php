@@ -15,7 +15,7 @@
 	<script src="js/jquery-1.9.1.min.js"></script>
 	
 	<!-- jQuery UI Map v3 -->
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+	<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>-->
 	
 	<link rel="stylesheet" href="js/jqm/jquery.mobile-1.3.1.css" />
 	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
