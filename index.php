@@ -21,132 +21,11 @@
 	<link rel="stylesheet" href="js/jqm/jquery.mobile-1.3.1.css" />
 	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
 	<link rel="stylesheet" href="css/main.css" />
-
- 
- 
- 
-	<script language="javascript">
-		var IciLat;
-		var IciLong;
-		var map = null; 
-	
-		/*if (navigator.geolocation){
-	 	  navigator.geolocation.getCurrentPosition(successCallback, errorCallback, { maximumAge: 3000, timeout:3000, enableHighAccuracy: true });
-		}else{
-		  alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
-		} */  
-		
-	 	
-		function successCallback(position){
-			
-			/*if (error == true) {
-				IciLat = '43.082516';
-				IciLong = '6.157009';
-			} else {*/
-				IciLat =position.coords.latitude ;
-				IciLong = position.coords.longitude;
-			//}
-			
-		
-			  $('#from').val(IciLat + "," + IciLong);
-			  
-				var directionsDisplay;
-				var directionsService = new google.maps.DirectionsService();
-				var map;
-				
-				var PtDepart = new google.maps.LatLng(IciLat ,IciLong);
-				//alert('Point de départ '+position);
-				//var oceanBeach = new google.maps.LatLng(37.7683909618184, -122.51089453697205);
-				
-				google.maps.visualRefresh = true;
-	
-				
-	 			function initialize() {
-				  directionsDisplay = new google.maps.DirectionsRenderer();
-				  var mapOptions = {
-					zoom: 16,
-					mapTypeId: google.maps.MapTypeId.ROADMAP,
-					center: PtDepart,
-					disableDefaultUI: true
-				  }
-				  map = new google.maps.Map(document.getElementById('laCarte'), mapOptions);
-				  directionsDisplay.setMap(map);
-				  
-	 
-	 			 directionsDisplay.setPanel(document.getElementById('itineraireShow'));
-	
-				  
-				  var marker = new google.maps.Marker({
-					  position: PtDepart,
-					  map: map 
-				  });
-	
-				  
-				}
-				
-				function calcRoute() {
-				  
-				  $("#itineraireShow").html('');
-				 //alert('CalcRoute :' + PtDepart);
-				  
-				  var EndPoint;
-				  EndPoint = $("#endPoint :selected").val().split(',');
-				  
-				  
-				 var destinaTionTlv = new google.maps.LatLng(EndPoint[0], EndPoint[1]);
-				 
-				 
-				  var selectedMode = document.getElementById('mode').value;
-				  var request = {
-					  origin: PtDepart,
-					  destination: destinaTionTlv,
-					 // route : 'itineraireShow', 
-					  // Note that Javascript allows us to access the constant
-					  // using square brackets and a string value as its
-					  // "property."
-					  travelMode: google.maps.TravelMode[selectedMode]
-				  };
-				  directionsService.route(request, function(response, status) {
-					if (status == google.maps.DirectionsStatus.OK) {
-					  directionsDisplay.setDirections(response);
-					}
-				  });
-				  
-				  var documentBody = (($.browser.chrome)||($.browser.safari)) ? document.body : document.documentElement;
-				  $(documentBody).animate({scrollTop: $('#itineraireShow').offset().top-90}, 2000);
-				}
-				
-				///btn itineraire
-				 $("input[name=CalcItin]").click(function(){
-						calcRoute();
-				});
-				
-				google.maps.event.addDomListener(window, 'load', initialize);
-		 }; 
-	 
-		function errorCallback(error){
-		  switch(error.code){
-			case error.PERMISSION_DENIED:
-			  alert("L'utilisateur n'a pas autorisé l'accès à sa position");
-			  //successCallback(position='0',error=true);
-			  break;     
-			case error.POSITION_UNAVAILABLE:
-			  alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
-			  //successCallback(position='0',error=true);
-			  break;
-			case error.TIMEOUT:
-			  alert("Le service n'a pas répondu à temps");
-			  //successCallback(position='0',error=true);
-			  break;
-			}
-		};
-	
-	</script>
 	
 	<script src="js/jqm/jquery.mobile-1.3.1.js"></script> 
-	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
-	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
-	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.fr.utf8.js"></script>
+	<script type="text/javascript" src="js/jqm-datebox.core.min.js"></script>
+	<script type="text/javascript" src="js/jqm-datebox.mode.calbox.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile.datebox.i18n.fr.utf8.js"></script>
  
 </head>
 
@@ -255,7 +134,7 @@
 	<div data-role="content" class="page-content-tlv">
 		<H1>Alertes Info TLV</H1>
 		
-		<img src="http://www.tlv-tvm.com/images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
+		<img src="images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
 		
 		<div class="content">
 			<p align="center">- Aucune alertes pour le moment -</p>	
