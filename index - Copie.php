@@ -11,7 +11,10 @@
 	<link rel="apple-touch-icon" sizes="72x72" href="img/jqtouch.png" /><!-- 72x72-->
 	<link rel="apple-touch-icon" sizes="114x114" href="img/jqtouch.png" /><!-- 114x144-->
 	
-	
+	<?
+		$iOSkey = "AIzaSyC2STsn75whVHEDtXaP9fhm4Nfo9hlgqIk";
+		$AndroidKey = "AIzaSyDyFXcxcclq36-Cs1CHb7U192mehdBkP6A";
+	?>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	
 	<!-- jQuery UI Map v3 -->
@@ -20,7 +23,27 @@
 	<link rel="stylesheet" href="js/jqm/jquery.mobile-1.3.1.css" />
 	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
 	<link rel="stylesheet" href="css/main.css" />
+<?
 
+ $addr_serveur = 'localhost';
+	$login_mysql = 'yoogi_tlv';
+	$pass_mysql = 'tlv83';
+	$nom_bdd = 'yoogi_tlv';
+	
+	
+	$link = mysql_connect($addr_serveur ,$login_mysql, $pass_mysql);
+	if (!$link) {
+	   die('Impossible de se connecter  : ' . mysql_error());
+	}else{
+		//echo "connect&eacute; en persistant";
+	}
+	
+	$db_selected = mysql_select_db($nom_bdd , $link);
+	if (!$db_selected) {
+	   die ('Impossible de sélectionner la base de données : ' . mysql_error());
+}	
+
+?> 
  
  
  
@@ -212,7 +235,7 @@
 		</select>
 		
 		<label for="date_depart">Horaires du :</label>
-		<input value="" name="date_depart" id="date_depart" type="date" data-role="datebox" data-options='{"mode": "calbox","useFocus": true, "calShowWeek": true}'>
+		<input value="<?=date("d/m/Y")?>" name="date_depart" id="date_depart" type="date" data-role="datebox" data-options='{"mode": "calbox","useFocus": true, "calShowWeek": true}'>
 		<p>&nbsp;</p>
 		<div id="bouton_submit"><input type="button" class="bt-valid" value="Consulter les horaires" id="btnHoraireGo" /></div>
 		<div id="infoHoraire">&nbsp;</div>
@@ -234,7 +257,16 @@
 	</div>
 	
 	<div data-role="content" class="page-content-tlv">
-		<?php echo 'affichage en php'; ?>
+		<?
+		// id Page = 15 --> Tarifs FR
+		$page=15;
+		$strSqlSelectPage = "select *  from pages where id_pages = ".$page;
+		$resultSelectPage = mysql_query($strSqlSelectPage) or die ("Erreur de lecture de la page : ".mysql_error());
+		$rowPage = mysql_fetch_array($resultSelectPage);
+	
+		echo $rowPage['contenu'];
+		
+		?>
 	</div>
 	
 	<div data-role="footer" data-position="fixed" style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv"><img src="img/footer.png" width="100%" id="img-footer" /></div>
@@ -257,7 +289,46 @@
 		<img src="http://www.tlv-tvm.com/images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
 		
 		<div class="content">
+		<?
+			$strSqlSelectActuVerif = "select * from alerte_info  where publier = 1  and id_langue=1  order by date_alerte_info desc ";
+			$resultSelectActuVerif = mysql_query($strSqlSelectActuVerif) or die ("Erreur de lecture des actualit&eacute;s");
+			
+			if($nbActu = mysql_num_rows($resultSelectActuVerif)>0){
+	            while($rowActu = mysql_fetch_array($resultSelectActuVerif)){
+		?>
+                      
+        <p>
+        	<h3 style="color:#F00;margin:0px" >
+				<? if($rowActu['lien_next']){
+	
+						$lienActu = "";
+						$lienActu = UrlRewriter(strtolower(stripslashes($rowActu['titre'])));
+						
+						$lienActu = $lienActu."-0-0-0-".$rowActu['id_alerte_info'].".html";
+						$lienActu =str_replace("--","-",$lienActu);
+				?>
+				<a href="<?=$lienActu?>"  class="iframe"><?=stripslashes($rowActu['titre'])?></a>
+	            <? }else{ ?>
+	            <?=stripslashes($rowActu['titre'])?>
+	            <? } ?>
+            </h3>
+            <span class="date"><strong><?=FlipDate($rowActu['date_crea'])?></strong></span>
+        </p>
+        <p><?=stripslashes($rowActu['chapeau'])?></p>
+        <? if($rowActu['lien_next']){
+			$lienActu = "";
+			$lienActu = UrlRewriter(strtolower(stripslashes($rowActu['titre'])));
+			
+			$lienActu = $lienActu."-0-".$rowActu['id_actualite'].".html";
+			$lienActu =str_replace("--","-",$lienActu);
+		?>
+		<!--<p class="suite" align="right"><a href="<?=$lienActu?>"  class="iframe">&gt;  Lire la suite</a></p>--> 
+		<? } ?>
+		&nbsp;
+ 		<?	}
+		}else{ ?>
 			<p align="center">- Aucune alertes pour le moment -</p>	
+		<? } ?>	
 		</div>
 	</div>
 	
@@ -417,7 +488,21 @@
   <div data-role="content" class="page-content-tlv">
   	 <h2>M&eacute;t&eacute;o Hyeres / Porquerolles</h2>
      <div id="descMeteo">
-      
+      <?
+		  
+			$filename = "http://api.meteorologic.net/forecarss?p=Hyeres";
+			if($handle = fopen($filename, "r")){
+				//$contents = fread($handle, filesize($filename));
+				$contents = stream_get_contents($handle);
+				$search = array(' ', "\t", "\n", "\r");
+				$contents = str_replace($search, '', $contents);
+				fclose($handle);
+			}else{
+				$contents = "NO METEO";	
+			}
+			 
+			 
+		 ?>
      
      </div>
     <script language="javascript">
