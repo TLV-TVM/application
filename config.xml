@@ -6,7 +6,7 @@
         id = "com.phonegap.hello-world"
         version = "1.0.0">
 
-    <name>Comet test</name>
+    <name>TLV TVM</name>
 
     <description>
        
@@ -60,11 +60,6 @@ permission on your app, which PhoneGap requires.
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
-<plugin name="NetworkStatus" value="org.apache.cordova.NetworkManager" />
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
 	<plugin name="Geolocation" value="CDVLocation" />

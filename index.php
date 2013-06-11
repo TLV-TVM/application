@@ -16,10 +16,10 @@
 		$AndroidKey = "AIzaSyDyFXcxcclq36-Cs1CHb7U192mehdBkP6A";
 	?>
 	
-	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	
 	<!-- jQuery UI Map v3 -->
-	<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>-->
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 	
 	<link rel="stylesheet" href="js/jqm/jquery.mobile-1.3.1.css" />
 	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
@@ -27,7 +27,7 @@
 	
 	<?
 	
-	 	$addr_serveur = '46.105.39.55';
+	 	$addr_serveur = 'localhost';
 		$login_mysql = 'yoogi_tlv';
 		$pass_mysql = 'tlv83';
 		$nom_bdd = 'yoogi_tlv';
@@ -48,6 +48,7 @@
 	?>
 	
 	<script language="javascript">
+		
 		var IciLat;
 		var IciLong;
 		var map = null; 
@@ -208,7 +209,7 @@
 		</div>
 	</div>
 	  
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <!-- FIN HOME -->
@@ -239,7 +240,7 @@
 		<div id="infoHoraire">&nbsp;</div>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <!-- FIN HORAIRES -->
@@ -267,7 +268,7 @@
 		?>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <!-- FIN TARIFS -->
@@ -330,7 +331,7 @@
 		</div>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <!-- FIN ALERTES -->
@@ -359,7 +360,7 @@
     	</ul>
 	</div>
   
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 
@@ -381,7 +382,7 @@
 		Le circuit "vision sous-marine" n'est cependant pas accessible aux personnes en fauteuil roulant et malvoyantes.
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <div data-role="page" id="page3" data-add-back-btn="true">
@@ -445,7 +446,7 @@
 		</p>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 
@@ -458,16 +459,24 @@
 	
 	<div data-role="content" class="page-content-tlv">
 		<div style="margin: 0 auto 15px; width: 95px;"><img src="images/logo-ParcNationalPortCros.jpg" alt="Parc National Port Cros" /></div>
-		Cr&eacute;&eacute; le 14 d&eacute;cembre 1963, le Parc national de Port-Cros, qui occupe 700 ha de terres &eacute;merg&eacute;es et 1288 ha de surfaces marines, est l'un des deux plus anciens Parc Nationaux de France et le premier parc marin europ&eacute;en. Il comprend l'&icirc;le de Port-Cros, celle de Bagaud, les &icirc;lots de la Gabini&egrave;re et du Rascas ainsi qu'un  p&eacute;rim&egrave;tre marin de 600 m de large.
-		Le 6 mai 2012 a &eacute;t&eacute; publi&eacute; au journal officiel de la r&eacute;publique, le d&eacute;cret n° 2012-649 qui, en application de la loi d'avril 2006, r&eacute;forme le parc national en profondeur. A l'issue d'une concertation avec les acteurs locaux, l'espace du Parc national se trouve totalement reconfigur&eacute;. Il comporte aujourd'hui :
-		<ul>
-			<li>deux &laquo; cœurs &raquo;, espaces de protection et d'accueil du public, constitu&eacute;s de l' &icirc;le de Port-Cros et des espaces naturels propri&eacute;t&eacute; de l'Etat de l'&icirc;le Porquerolles ainsi que leur frange marine jusqu'&agrave; une distance de 600 m,</li>
-			<li>une &laquo; aire potentielle d'adh&eacute;sion &raquo;, espace de projet de d&eacute;veloppement durable &agrave; &eacute;laborer avec les onze communes qui le composent,</li>
-			<li>une &laquo; aire maritime adjacente &raquo; r&eacute;plique en mer de l'aire d'adh&eacute;sion, qui couvre l'espace marin au droit de ces onze communes et &eacute;tendue jusqu'&agrave; 3 milles marins au sud des &icirc;les.</li>
-		</ul>
+		<h1>Parc national de Port-Cros, insulaire,  littoral et marin</h1>
+		<p>
+		Le cœur du Parc national de Port-Cros s’&eacute;tend sur 1 700 ha de terres &eacute;merg&eacute;es et 2 900 ha de surfaces marines. Il comprend une partie de l'&icirc;le Porquerolles, les &icirc;les de Port-Cros, de Bagaud, les &icirc;lots de la Gabini&egrave;re et du Rascas et un p&eacute;rim&egrave;tre marin qui les enserre.
+		</p>
+		<p>
+		Royaume des oiseaux marins, le Parc abrite 144 esp&egrave;ces et offre un milieu propice &agrave; la nidification du Puffin
+		cendr&eacute;, esp&egrave;ce migratrice rare dont la colonie de Porquerolles est la plus importante des côtes françaises.
+		</p>
+		<p>
+		180 esp&egrave;ces de poissons y prosp&egrave;rent dont le M&eacute;rou brun 
+		Quant &agrave; la flore, 602 esp&egrave;ces terrestres sont r&eacute;pertori&eacute;es dont certaines rares, comme le genêt &agrave; feuille de lin ou end&eacute;miques comme la Dauphinelle de Requien, ainsi que 500 esp&egrave;ces d’algues.
+		Une biodiversit&eacute; exceptionnelle et fragile, &agrave; d&eacute;couvrir avec respect. 
+		</p>
+		<p>EN 2013, LE PARC NATIONAL F&Egrave;TE SON CINQUANTENAIRE</p>
+		<a href="http://50ans.portcrosparcnational.fr" target="_blank">http://50ans.portcrosparcnational.fr</a>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 
@@ -572,7 +581,7 @@
 		</script>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <!-- FIN meteoTLV -->
@@ -630,7 +639,7 @@
 	</script>			 
   
   
-	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
   
 </div>
 <!-- FIN GEOLOC -->
@@ -753,8 +762,20 @@ $("#btnHoraireGo").click(function(){
 	
 })
 
-
-
+	var largeurFooter = 0;
+	var NavLar = $(window).width();
+	console.log('NavLar = '+NavLar);
+	largeurFooter = (NavLar - 320) / 2;
+	//largeurFooter = largeurFooter + ' px';
+	console.log('largeurFooter = '+largeurFooter);
+	$("#footer-tlv .bgfooterleft").css({
+		'width': largeurFooter,
+		'left': 0
+	});
+	$("#footer-tlv .bgfooterright").css({
+		'width': largeurFooter,
+		'right': 0
+	});
 	
 </script>
 

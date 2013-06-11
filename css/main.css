@@ -2,7 +2,7 @@
 html, body {
     height : 100%;
 	/*margin:0px;padding:0px; */
-	background-color:#004d91 !important; 
+	/*background-color:#004d91 !important;*/ 
 
 }
 @font-face {
@@ -38,15 +38,19 @@ html, body {
 #footer-tlv{  
 	text-align:center; 
 	height: 96px;
-	background: #004d91 url(../images/footer-repeat.gif) repeat-x 0 38px !important; 
-	background-color:transparent;
-	border-top:0px 
+	border-top:0px;
+	background:none!important;
 }
-
-#footer-tlv div {
-	background: #004d91;
+#footer-tlv div { display: inline-block; }
+#footer-tlv .bgfooterleft,#footer-tlv .bgfooterright {
+	height: 96px;
+	position: absolute;
+	background: transparent url(../images/footer-repeat.gif) repeat-x 0 40px !important;
+}
+#footer-tlv #imgfooter {
 	width: 320px;
 	margin: 0 auto;
+	vertical-align:top;
 }
 
 
@@ -62,7 +66,7 @@ body.portrait{
     background-size:100% 100% !important ;*/
  
 }
-body.lanscape{
+body.landscape{
 	background: #004d91 url(../images/TLV-BG-MER.jpg) repeat-x !important;
 	/*background-color: #035295 !important;*/
  	/*background-color:#004484 !important;
@@ -73,7 +77,7 @@ body.lanscape{
     background-size:100% 100% !important ;*/
 }
 .ui-page {
-    background: transparent !important;
+    background: #004485 !important;
 }
 #home {
 	background: url(../images/bateau-seul.png) center 85px no-repeat !important;
@@ -95,8 +99,8 @@ body.lanscape{
 
 /* Jquery Theme */
 
-#infosTlv .ui-bar-c a.ui-link {
-	color: #000000;
+.ui-bar-c a.ui-link, .ui-body-c a.ui-link{
+	color: #ffffff;
 	text-decoration: none;
 }
 
@@ -107,9 +111,8 @@ body.lanscape{
  
 
 .page-content-tlv{
-	background-image:url(../img/bg-page.jpg) !important ;
- background-repeat:repeat-x !important ;
-background-size:cover;
+	background:url(../img/bg-page.jpg) 0 0 repeat-x !important ;
+ 
 	min-height:384px;
 	color:#FFFFFF; font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif; font-size:11px; text-shadow: 0 0 0; 
 }
