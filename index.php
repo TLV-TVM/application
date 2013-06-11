@@ -6,14 +6,17 @@
 	
 	<meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no"  >
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<link rel="apple-touch-startup-image" href="img/jqt_startup.png" />
 	<link rel="apple-touch-icon" href="img/jqtouch.png" />
 	<link rel="apple-touch-icon" sizes="72x72" href="img/jqtouch.png" /><!-- 72x72-->
 	<link rel="apple-touch-icon" sizes="114x114" href="img/jqtouch.png" /><!-- 114x144-->
 	
+	<?
+		$iOSkey = "AIzaSyC2STsn75whVHEDtXaP9fhm4Nfo9hlgqIk";
+		$AndroidKey = "AIzaSyDyFXcxcclq36-Cs1CHb7U192mehdBkP6A";
+	?>
 	
-	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	
 	<!-- jQuery UI Map v3 -->
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
@@ -22,11 +25,150 @@
 	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
 	<link rel="stylesheet" href="css/main.css" />
 	
+	<?
+	
+	 	$addr_serveur = 'localhost';
+		$login_mysql = 'yoogi_tlv';
+		$pass_mysql = 'tlv83';
+		$nom_bdd = 'yoogi_tlv';
+		
+		
+		$link = mysql_connect($addr_serveur ,$login_mysql, $pass_mysql);
+		if (!$link) {
+		   die('Impossible de se connecter  : ' . mysql_error());
+		}else{
+			//echo "connect&eacute; en persistant";
+		}
+		
+		$db_selected = mysql_select_db($nom_bdd , $link);
+		if (!$db_selected) {
+		   die ('Impossible de sélectionner la base de données : ' . mysql_error());
+	}	
+	
+	?>
+	
+	<script language="javascript">
+		var IciLat;
+		var IciLong;
+		var map = null; 
+	
+		if (navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(successCallback, errorCallback, { maximumAge: 3000, timeout:3000, enableHighAccuracy: true });
+		}else{
+			alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+		}
+
+		function successCallback(position){
+			
+			/*if (error == true) {
+				IciLat = '43.082516';
+				IciLong = '6.157009';
+			} else {*/
+				IciLat =position.coords.latitude ;
+				IciLong = position.coords.longitude;
+			//}
+			
+		
+			  $('#from').val(IciLat + "," + IciLong);
+			  
+				var directionsDisplay;
+				var directionsService = new google.maps.DirectionsService();
+				var map;
+				
+				var PtDepart = new google.maps.LatLng(IciLat ,IciLong);
+				//alert('Point de départ '+position);
+				//var oceanBeach = new google.maps.LatLng(37.7683909618184, -122.51089453697205);
+				
+				google.maps.visualRefresh = true;
+	
+				
+	 			function initialize() {
+				  directionsDisplay = new google.maps.DirectionsRenderer();
+				  var mapOptions = {
+					zoom: 16,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					center: PtDepart,
+					disableDefaultUI: true
+				  }
+				  map = new google.maps.Map(document.getElementById('laCarte'), mapOptions);
+				  directionsDisplay.setMap(map);
+				  
+	 
+	 			 directionsDisplay.setPanel(document.getElementById('itineraireShow'));
+	
+				  
+				  var marker = new google.maps.Marker({
+					  position: PtDepart,
+					  map: map 
+				  });
+	
+				  
+				}
+				
+				function calcRoute() {
+				  
+				  $("#itineraireShow").html('');
+				 //alert('CalcRoute :' + PtDepart);
+				  
+				  var EndPoint;
+				  EndPoint = $("#endPoint :selected").val().split(',');
+				  
+				  
+				 var destinaTionTlv = new google.maps.LatLng(EndPoint[0], EndPoint[1]);
+				 
+				 
+				  var selectedMode = document.getElementById('mode').value;
+				  var request = {
+					  origin: PtDepart,
+					  destination: destinaTionTlv,
+					 // route : 'itineraireShow', 
+					  // Note that Javascript allows us to access the constant
+					  // using square brackets and a string value as its
+					  // "property."
+					  travelMode: google.maps.TravelMode[selectedMode]
+				  };
+				  directionsService.route(request, function(response, status) {
+					if (status == google.maps.DirectionsStatus.OK) {
+					  directionsDisplay.setDirections(response);
+					}
+				  });
+				  
+				  var documentBody = (($.browser.chrome)||($.browser.safari)) ? document.body : document.documentElement;
+				  $(documentBody).animate({scrollTop: $('#itineraireShow').offset().top-90}, 2000);
+				}
+				
+				///btn itineraire
+				 $("input[name=CalcItin]").click(function(){
+						calcRoute();
+				});
+				
+				google.maps.event.addDomListener(window, 'load', initialize);
+		 }; 
+	 
+		function errorCallback(error){
+			switch(error.code){
+				case error.PERMISSION_DENIED:
+				  alert("L'utilisateur n'a pas autorisé l'accès à sa position");
+				  //successCallback(position='0',error=true);
+				  break;     
+				case error.POSITION_UNAVAILABLE:
+				  alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
+				  //successCallback(position='0',error=true);
+				  break;
+				case error.TIMEOUT:
+				  alert("Le service n'a pas répondu à temps");
+				  //successCallback(position='0',error=true);
+				  break;
+			}
+		};
+	
+	</script>
+	
 	<script src="js/jqm/jquery.mobile-1.3.1.js"></script> 
-	<script type="text/javascript" src="js/jqm-datebox.core.min.js"></script>
-	<script type="text/javascript" src="js/jqm-datebox.mode.calbox.min.js"></script>
-	<script type="text/javascript" src="js/jquery.mobile.datebox.i18n.fr.utf8.js"></script>
- 
+	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
+	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
+	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.fr.utf8.js"></script>
+	
 </head>
 
 <body class="portrait">
@@ -36,13 +178,13 @@
 
 <!-- HOME -->
 <div data-role="page" class="page-tlv" id="home">
-	<div  data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+	
+	<div data-role="header" data-position="fixed">
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
 	  
 	<div data-role="content" class="page-tlv">
-	  
 		<div id="nav-home-tlv">
 			<div class="bouton">
 				<a href="#horaires" data-transition="flip"><img src="img/btn/btn_horaires.png" border="0" /></a>
@@ -63,11 +205,10 @@
 				<a href="#meteoTLV"  data-transition="flip"><img src="img/btn/btn_meteo.png" border="0" /></a>
 			</div>
 			<div style="clear:both"></div>
-		</div> 
-		
+		</div>
 	</div>
 	  
-	<div data-role="footer" data-position="fixed" style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv"><img src="img/footer.png" width="100%" id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <!-- FIN HOME -->
@@ -76,7 +217,7 @@
 <!-- HORAIRES -->
 <div data-role="page" id="horaires" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Accueil</a>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
@@ -92,13 +233,13 @@
 		</select>
 		
 		<label for="date_depart">Horaires du :</label>
-		<input value="" name="date_depart" id="date_depart" type="date" data-role="datebox" data-options='{"mode": "calbox","useFocus": true, "calShowWeek": true}'>
+		<input value="<?=date("d/m/Y")?>" name="date_depart" id="date_depart" type="date" data-role="datebox" data-options='{"mode": "calbox","useFocus": true, "calShowWeek": true}'>
 		<p>&nbsp;</p>
 		<div id="bouton_submit"><input type="button" class="bt-valid" value="Consulter les horaires" id="btnHoraireGo" /></div>
 		<div id="infoHoraire">&nbsp;</div>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv"><img src="img/footer.png" width="100%" id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <!-- FIN HORAIRES -->
@@ -108,16 +249,25 @@
 <div data-role="page" id="tarifs" data-add-back-btn="true">
 	
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Accueil</a>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
 	
 	<div data-role="content" class="page-content-tlv">
+		<?
+		// id Page = 15 --> Tarifs FR
+		$page=15;
+		$strSqlSelectPage = "select *  from pages where id_pages = ".$page;
+		$resultSelectPage = mysql_query($strSqlSelectPage) or die ("Erreur de lecture de la page : ".mysql_error());
+		$rowPage = mysql_fetch_array($resultSelectPage);
+	
+		echo $rowPage['contenu'];
 		
+		?>
 	</div>
 	
-	<div data-role="footer" data-position="fixed" style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv"><img src="img/footer.png" width="100%" id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <!-- FIN TARIFS -->
@@ -126,7 +276,7 @@
 <!-- ALERTES -->
 <div data-role="page" id="alertes" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg" height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png" height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Accueil</a>
       	<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
@@ -134,14 +284,53 @@
 	<div data-role="content" class="page-content-tlv">
 		<H1>Alertes Info TLV</H1>
 		
-		<img src="images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
+		<img src="http://www.tlv-tvm.com/images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
 		
 		<div class="content">
+		<?
+			$strSqlSelectActuVerif = "select * from alerte_info  where publier = 1  and id_langue=1  order by date_alerte_info desc ";
+			$resultSelectActuVerif = mysql_query($strSqlSelectActuVerif) or die ("Erreur de lecture des actualit&eacute;s");
+			
+			if($nbActu = mysql_num_rows($resultSelectActuVerif)>0){
+	            while($rowActu = mysql_fetch_array($resultSelectActuVerif)){
+		?>
+                      
+        <p>
+        	<h3 style="color:#F00;margin:0px" >
+				<? if($rowActu['lien_next']){
+	
+						$lienActu = "";
+						$lienActu = UrlRewriter(strtolower(stripslashes($rowActu['titre'])));
+						
+						$lienActu = $lienActu."-0-0-0-".$rowActu['id_alerte_info'].".html";
+						$lienActu =str_replace("--","-",$lienActu);
+				?>
+				<a href="<?=$lienActu?>"  class="iframe"><?=stripslashes($rowActu['titre'])?></a>
+	            <? }else{ ?>
+	            <?=stripslashes($rowActu['titre'])?>
+	            <? } ?>
+            </h3>
+            <span class="date"><strong><?=FlipDate($rowActu['date_crea'])?></strong></span>
+        </p>
+        <p><?=stripslashes($rowActu['chapeau'])?></p>
+        <? if($rowActu['lien_next']){
+			$lienActu = "";
+			$lienActu = UrlRewriter(strtolower(stripslashes($rowActu['titre'])));
+			
+			$lienActu = $lienActu."-0-".$rowActu['id_actualite'].".html";
+			$lienActu =str_replace("--","-",$lienActu);
+		?>
+		<!--<p class="suite" align="right"><a href="<?=$lienActu?>"  class="iframe">&gt;  Lire la suite</a></p>--> 
+		<? } ?>
+		&nbsp;
+ 		<?	}
+		}else{ ?>
 			<p align="center">- Aucune alertes pour le moment -</p>	
+		<? } ?>	
 		</div>
 	</div>
 	
-	<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <!-- FIN ALERTES -->
@@ -150,7 +339,7 @@
 <!-- infosTlv -->
 <div data-role="page" id="infosTlv" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Accueil</a>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
@@ -170,14 +359,14 @@
     	</ul>
 	</div>
   
-	<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 
 <!-- Page Accessibilité -->
 <div data-role="page" id="page2" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#infosTlv" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Retour</a>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
@@ -192,12 +381,12 @@
 		Le circuit "vision sous-marine" n'est cependant pas accessible aux personnes en fauteuil roulant et malvoyantes.
 	</div>
 	
-	<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <div data-role="page" id="page3" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#infosTlv" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Retour</a>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
@@ -256,13 +445,13 @@
 		</p>
 	</div>
 	
-	<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 
 <div data-role="page" id="page4" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#infosTlv" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Retour</a>
 		<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
@@ -278,7 +467,7 @@
 		</ul>
 	</div>
 	
-	<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 
@@ -288,81 +477,102 @@
 <!-- meteoTLV -->
 <div data-role="page" id="meteoTLV" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
        	<a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Accueil</a>
        	<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
   	</div>
   
   
-  <div data-role="content" class="page-content-tlv">
-  	 <h2>M&eacute;t&eacute;o Hyeres / Porquerolles</h2>
-     <div id="descMeteo">
-      
-     
-     </div>
-    <script language="javascript">
-	 	//get Ajax de la m&eacute;t&eacute;o
-		var fluxMeteo;
-		var AffMeteo;
-		
-		/* 
-		$.ajax({
-			url:'proxy.php',
-			dataType:'xml',
-			type:'GET',
-			success:function(xml) {
-				$(xml).find('meteo').each(function() {
-					
-					var DateMeteo =  $(this).attr('date');
-					var PictoMidi = $(this).attr('pictos_midi');
-					var TempMatin = $(this).attr('tempe_matin');
-					var TempMidi = $(this).attr('tempe_midi');
-					var TempSoir = $(this).attr('tempe_soir');
-					
-					//tempe_matin="11.7" namepictos_matin="D&eacute;gag&eacute;"   pictos_matin="soleil" tempe_midi="15.8" namepictos_midi="D&eacute;gag&eacute;" pictos_midi="soleil" tempe_apmidi="17.9" namepictos_apmidi="Nuageux"   pictos_apmidi="nuageux" tempe_soir="16.9" namepictos_soir="Nuageux"   pictos_soir="nuageux" 
-					
-					$("#descMeteo").append("<span class='ladate'>Le "+DateMeteo+"</span><p><img class='"+PictoMidi+"' src='' width='128'  /><br /><span class='info'>Matin : "+TempMatin+"&deg;<br>Midi : "+TempMidi+"&deg;<br>Soir : "+TempSoir+"&deg;<br></span></p><hr>");     
-					
-			   })
-			   
-			   
-			   
-			   ///traitement des pictos
-			  
-				$("img.soleil").attr('src','img/meteo/soleil.png');
-				$("img.voile").attr('src','img/meteo/voile.png');
-				$("img.nuageux").attr('src','img/meteo/nuageux.png');
-				$("img.couvert").attr('src','img/meteo/couvert.png');
-				
-				$("img.brouillard").attr('src','img/meteo/couvert.png');
-				$("img.brouillardgivrant").attr('src','img/meteo/couvert.png');
-				$("img.neifefaible").attr('src','img/meteo/averseneige.png');
-				$("img.neigemoderer").attr('src','img/meteo/averseneige.png');
-				
-				$("img.neigeforte").attr('src','img/meteo/averseneige.png');
-				
-				
-				$("img.pluiefaible").attr('src','img/meteo/pluiefaible.png');
-				$("img.pluiemoderer").attr('src','img/meteo/pluiefaible.png');
-				$("img.pluieforte").attr('src','img/meteo/pluieforte.png');
-				$("img.verglas").attr('src','img/meteo/pluieforte.png');
-				$("img.averse").attr('src','img/meteo/pluiefaible.png');
-				$("img.averseneige").attr('src','img/meteo/averseneige.png');
-				$("img.orageloc").attr('src','img/meteo/orageloc.png');
-				$("img.oragefort").attr('src','img/meteo/orageloc.png');
-			},
-			error:function() {
-				alert("Aucun flux trouv&eacute;");
+	<div data-role="content" class="page-content-tlv">
+		<h2>M&eacute;t&eacute;o Hyeres / Porquerolles</h2>
+     	<div id="descMeteo">
+      	<?
+      		$filename = "http://api.meteorologic.net/forecarss?p=Hyeres";
+			if($handle = fopen($filename, "r")){
+				//$contents = fread($handle, filesize($filename));
+				$contents = stream_get_contents($handle);
+				$search = array(' ', "\t", "\n", "\r");
+				$contents = str_replace($search, '', $contents);
+				fclose($handle);
+			}else{
+				$contents = "NO METEO";	
 			}
-		});*/
-      
-		 
-		
-	 </script>
-  </div>
-  
-  
-<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+		?>
+		</div>
+		<script language="javascript">
+		 	//get Ajax de la m&eacute;t&eacute;o
+			var fluxMeteo;
+			var AffMeteo;
+			
+			
+			$.ajax({
+				url:'proxy.php',
+				dataType:'xml',
+				type:'GET',
+				success:function(xml) {
+					$(xml).find('meteo').each(function() {
+						
+						var DateMeteo =  $(this).attr('date');
+						var PictoMidi = $(this).attr('pictos_midi');
+						var TempMatin = $(this).attr('tempe_matin');
+						var TempMidi = $(this).attr('tempe_midi');
+						var TempSoir = $(this).attr('tempe_soir');
+						
+						//tempe_matin="11.7" namepictos_matin="D&eacute;gag&eacute;"   pictos_matin="soleil" tempe_midi="15.8" namepictos_midi="D&eacute;gag&eacute;" pictos_midi="soleil" tempe_apmidi="17.9" namepictos_apmidi="Nuageux"   pictos_apmidi="nuageux" tempe_soir="16.9" namepictos_soir="Nuageux"   pictos_soir="nuageux" 
+						
+						$("#descMeteo").append("<span class='ladate'>Le "+DateMeteo+"</span><p><img class='"+PictoMidi+"' src='' width='128'  /><br /><span class='info'>Matin : "+TempMatin+"&deg;<br>Midi : "+TempMidi+"&deg;<br>Soir : "+TempSoir+"&deg;<br></span></p><hr>");     
+						
+				   })
+				   ///traitement des pictos
+				   /*
+				   soleil = Ciel d&eacute;gag&eacute;
+					voile = Ciel voil&eacute;
+					nuageux = Ciel nuageux
+					couvert = Ciel couvert
+					brouillard = couvert
+					brouillardgivrant = couvert
+					neifefaible = averseneige
+					neigemoderer = averseneige
+					neigeforte = averseneige
+					pluiefaible = Pluie faible
+					pluiemoderer = pluiefaible
+					pluieforte = pluieforte
+					verglas = Verglas
+					averse = pluiefaible
+					averseneige = averseneige
+					orageloc =orageloc
+					oragefort = Violents orages
+					*/
+					$("img.soleil").attr('src','img/meteo/soleil.png');
+					$("img.voile").attr('src','img/meteo/voile.png');
+					$("img.nuageux").attr('src','img/meteo/nuageux.png');
+					$("img.couvert").attr('src','img/meteo/couvert.png');
+					
+					$("img.brouillard").attr('src','img/meteo/couvert.png');
+					$("img.brouillardgivrant").attr('src','img/meteo/couvert.png');
+					$("img.neifefaible").attr('src','img/meteo/averseneige.png');
+					$("img.neigemoderer").attr('src','img/meteo/averseneige.png');
+					
+					$("img.neigeforte").attr('src','img/meteo/averseneige.png');
+					
+					
+					$("img.pluiefaible").attr('src','img/meteo/pluiefaible.png');
+					$("img.pluiemoderer").attr('src','img/meteo/pluiefaible.png');
+					$("img.pluieforte").attr('src','img/meteo/pluieforte.png');
+					$("img.verglas").attr('src','img/meteo/pluieforte.png');
+					$("img.averse").attr('src','img/meteo/pluiefaible.png');
+					$("img.averseneige").attr('src','img/meteo/averseneige.png');
+					$("img.orageloc").attr('src','img/meteo/orageloc.png');
+					$("img.oragefort").attr('src','img/meteo/orageloc.png');
+				},
+				error:function() {
+					alert("Aucun flux trouv&eacute;");
+				}
+			});
+		</script>
+	</div>
+	
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <!-- FIN meteoTLV -->
@@ -371,15 +581,12 @@
 <!-- GEOLOC -->
 <div data-role="page" id="geoLoc" data-add-back-btn="true">
 	<div data-role="header" data-position="fixed">
-		
-		<div id="header-tlv"><img src="img/logo-tlv.jpg"  height="45" /></div>
-		
+		<div id="header-tlv"><img src="images/logo-tlv.png"  height="45" /></div>
 		<a data-role="button" data-direction="reverse" data-rel="back" href="#home" data-icon="arrow-l" data-iconpos="left" style="margin-top:4px">Accueil</a>
       	<div id="header-sub-tlv">porquerolles <span class="tiret">-</span> port cros <span class="tiret">-</span> le levant</div>
 	</div>
 	
 	<div data-role="content" class="page-content-tlv">
-		
 		<h2>Itin&eacute;raires</h2>
 		<p>
 			Pour vous rendre &agrave; la Tour Fondue ou au Port de Hy&egrave;res en bus, consultez les horaires sur:<br />
@@ -414,19 +621,16 @@
 		<div id="laCarte" style="border:1px solid #FFF;height:280px;width:100%;margin:auto"></div>
 	</div>
 	
-	<script type="text/javascript" src="js/jquery.browser_detect.js"></script>
 	<script type="text/javascript">
-		var isAndroid = /android/i.test(navigator.userAgent.toLowerCase());
-		var isiDevice = /ipad|iphone|ipod/i.test(navigator.userAgent.toLowerCase());
-		if (isAndroid) {
+		if (navigator.userAgent.match(/android/i)) {
 			$("#appli").attr('href', 'https://play.google.com/store/apps/details?id=fr.cityway.android.rmtt');
-		} else if (isiDevice) {
+		} else if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i)) {
 			$("#appli").attr('href', 'https://itunes.apple.com/fr/app/reseau-mistral/id429896529?mt=8');
 		}
 	</script>			 
   
   
-	<div data-role="footer"  data-position="fixed"  style="background-image:none; background-color:transparent;border-top:0px" id="footer-tlv" ><img src="img/footer.png"  width="100%"  id="img-footer" /></div>
+	<div data-role="footer" data-position="fixed" id="footer-tlv"><div><img src="img/footer.png" id="img-footer" /></div></div>
   
 </div>
 <!-- FIN GEOLOC -->
@@ -437,6 +641,7 @@ $(document).bind("mobileinit", function(){
 	$.mobile.touchOverflowEnabled = true;
   	$.mobile.orientationChangeEnabled = false;
   	$.mobile.allowCrossDomainPages = true;
+  	
 });
 
 
@@ -474,7 +679,7 @@ $(document).bind("mobileinit", function(){
 				*/
 				$('.ui-content').css(
 				{	'background-image':'url(img/bg-appli-landscape.png) !important ',
-					'background-color':'#004787  !important',
+					'background-color':'#004d91  !important',
     				'background-repeat':'no-repeat  !important',
    					' background-position':'top right  !important ',
    					' background-attachment':'scroll !important ',
@@ -536,7 +741,7 @@ $("#btnHoraireGo").click(function(){
 		var jour = DateTxt[0];
 		var mois = DateTxt[1];
 		var an = DateTxt[2];
-		/*
+		
 		$.ajax({
 		  url: 'checkHoraire.php',
 		  type: "POST",
@@ -544,7 +749,7 @@ $("#btnHoraireGo").click(function(){
 		  success: function(htmlReturn) {
 			$('#infoHoraire').html(htmlReturn);
  		  }
-		});*/
+		});
 	
 })
 
