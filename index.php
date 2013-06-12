@@ -12,9 +12,6 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="img/jqtouch.png" /><!-- 114x144-->
 
 	
-	<script src="js/jquery-1.9.1.min.js"></script>
-	
-	<!-- jQuery UI Map v3 -->
 	
 	
 	<link rel="stylesheet" href="js/jqm/jquery.mobile-1.3.1.css" />
