@@ -22,13 +22,7 @@
 	
 	
 	<link rel="stylesheet" href="js/jqm/jquery.mobile-1.3.1.css" />
-	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
-	<link rel="stylesheet" href="css/main.css" />
 	
-	<script src="js/jqm/jquery.mobile-1.3.1.js"></script> 
-	<script type="text/javascript" src="js/jqm-datebox.core.min.js"></script>
-	<script type="text/javascript" src="js/jqm-datebox.mode.calbox.min.js"></script>
-	<script type="text/javascript" src="js/jquery.mobile.datebox.i18n.fr.utf8.js"></script>
 	
 </head>
 
