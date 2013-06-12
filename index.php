@@ -16,7 +16,7 @@
 		$AndroidKey = "AIzaSyDyFXcxcclq36-Cs1CHb7U192mehdBkP6A";
 	?>
 	
-	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="js/jquery-1.9.1.min.js"></script>
 	
 	<!-- jQuery UI Map v3 -->
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
@@ -27,7 +27,7 @@
 	
 	<?
 	
-	 	$addr_serveur = 'localhost';
+	 	/*$addr_serveur = 'localhost';
 		$login_mysql = 'yoogi_tlv';
 		$pass_mysql = 'tlv83';
 		$nom_bdd = 'yoogi_tlv';
@@ -44,7 +44,7 @@
 		if (!$db_selected) {
 		   die ('Impossible de sélectionner la base de données : ' . mysql_error());
 	}	
-	
+	*/
 	?>
 	
 	<script language="javascript">
@@ -258,12 +258,12 @@
 	<div data-role="content" class="page-content-tlv">
 		<?
 		// id Page = 15 --> Tarifs FR
-		$page=15;
+		/*$page=15;
 		$strSqlSelectPage = "select *  from pages where id_pages = ".$page;
 		$resultSelectPage = mysql_query($strSqlSelectPage) or die ("Erreur de lecture de la page : ".mysql_error());
 		$rowPage = mysql_fetch_array($resultSelectPage);
 	
-		echo $rowPage['contenu'];
+		echo $rowPage['contenu'];*/
 		
 		?>
 	</div>
@@ -289,7 +289,7 @@
 		
 		<div class="content">
 		<?
-			$strSqlSelectActuVerif = "select * from alerte_info  where publier = 1  and id_langue=1  order by date_alerte_info desc ";
+			/*$strSqlSelectActuVerif = "select * from alerte_info  where publier = 1  and id_langue=1  order by date_alerte_info desc ";
 			$resultSelectActuVerif = mysql_query($strSqlSelectActuVerif) or die ("Erreur de lecture des actualit&eacute;s");
 			
 			if($nbActu = mysql_num_rows($resultSelectActuVerif)>0){
@@ -327,7 +327,7 @@
  		<?	}
 		}else{ ?>
 			<p align="center">- Aucune alertes pour le moment -</p>	
-		<? } ?>	
+		<? }*/ ?>	
 		</div>
 	</div>
 	
