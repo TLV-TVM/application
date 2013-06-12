@@ -10,11 +10,7 @@
 	<link rel="apple-touch-icon" href="img/jqtouch.png" />
 	<link rel="apple-touch-icon" sizes="72x72" href="img/jqtouch.png" /><!-- 72x72-->
 	<link rel="apple-touch-icon" sizes="114x114" href="img/jqtouch.png" /><!-- 114x144-->
-	
-	<?
-		$iOSkey = "AIzaSyC2STsn75whVHEDtXaP9fhm4Nfo9hlgqIk";
-		$AndroidKey = "AIzaSyDyFXcxcclq36-Cs1CHb7U192mehdBkP6A";
-	?>
+
 	
 	<script src="js/jquery-1.9.1.min.js"></script>
 	
@@ -355,13 +351,7 @@
 		<div id="laCarte" style="border:1px solid #FFF;height:280px;width:100%;margin:auto"></div>
 	</div>
 	
-	<script type="text/javascript">
-		if (navigator.userAgent.match(/android/i)) {
-			$("#appli").attr('href', 'https://play.google.com/store/apps/details?id=fr.cityway.android.rmtt');
-		} else if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i)) {
-			$("#appli").attr('href', 'https://itunes.apple.com/fr/app/reseau-mistral/id429896529?mt=8');
-		}
-	</script>			 
+	 
   
   
 	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
@@ -369,123 +359,7 @@
 </div>
 <!-- FIN GEOLOC -->
 
-<script type="text/javascript" charset="utf-8">
 
-$(document).bind("mobileinit", function(){
-	$.mobile.touchOverflowEnabled = true;
-  	$.mobile.orientationChangeEnabled = false;
-  	$.mobile.allowCrossDomainPages = true;
-  	
-});
-
-
- 
- ////carte
-
-//if (navigator.userAgent.match(/iPhone/i)) {
-
-        //cache the viewport tag if the user is using an iPhone
-        var $viewport = $('head').children('meta[name="viewport"]');
-
-        //bind an event handler to the window object for the orientationchange event
-        $(window).bind('orientationchange', function() {
-            if (window.orientation == 90 || window.orientation == -90 || window.orientation == 270) {
-
-                //landscape
-                $viewport.attr('content', 'height=device-width,width=device-height,initial-scale=1.0,maximum-scale=1.0');
-				$("body").removeClass("portrait");
-				$("body").addClass("landscape");
-				$("body").css("landscape");
-				$("#img-footer").attr("src","img/footer-landscape.png");
-				$("#nav-home").css('margin-top','0px');
-				$("#footer-tlv").css('display','none');
-				/*
-				$('body').css('background-image', 'url("img/bg-appli-landscape.png")');
-				
-				$('body').css(
-				{	'background-image':'url(img/bg-appli-landscape.png) !important ',
-					'background-color':'#004787  !important',
-    				'background-repeat':'no-repeat  !important',
-   					' background-position':'center center  !important ',
-   					' background-attachment':'scroll !important ',
-    				'background-size':'100% 100% !important '
-				});
-				*/
-				$('.ui-content').css(
-				{	'background-image':'url(img/bg-appli-landscape.png) !important ',
-					'background-color':'#004d91  !important',
-    				'background-repeat':'no-repeat  !important',
-   					' background-position':'top right  !important ',
-   					' background-attachment':'scroll !important ',
-    				'background-size':'100% 100% !important '
-				});
-				
-            } else {
-
-                //portrait
-                $viewport.attr('content', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0');
-				
-				$("body").removeClass("landscape");
-				$("body").addClass("portrait");
-	 
-				$("#img-footer").attr("src","img/footer.png");
-				$("#nav-home").css('margin-top','110px');
-				$("#footer-tlv").css('display','');
-				/*
-				$('body').css('background-image', 'url("img/bg-appli.png")');
-				
-				$('body').css(
-				{	'background-image':'url(img/bg-appli.png) !important ',
-					'background-color':'#004787  !important',
-    				'background-repeat':'no-repeat  !important',
-   					' background-position':'center center  !important ',
-   					' background-attachment':'scroll !important ',
-    				'background-size':'100% 100% !important '
-				});
-				*/
-				$('.ui-content').css(
-				{	'background-image':'url(img/bg-appli-content.png) !important ',
-					'background-color':'#004787  !important',
-    				'background-repeat':'no-repeat  !important',
-   					' background-position':'center center  !important ',
-   					' background-attachment':'scroll !important ',
-    				'background-size':'100% 100% !important '
-				});
-            }
-
-        //trigger an orientationchange event on the window object to initialize this code (basically in-case the user opens the page in landscape mode)
-        }).trigger('orientationchange');
-//  }		
-
-//verrouillage portrait
-function shouldRotateToOrientation(interfaceOrientation) {
-    return (1 === interfaceOrientation);
-}		
-
-
-
-/////Core
-$("#btnHoraireGo").click(function(){
-	
-	
-})
-
-	var largeurFooter = 0;
-	var NavLar = $(window).width();
-	console.log('NavLar = '+NavLar);
-	largeurFooter = (NavLar - 320) / 2;
-	//largeurFooter = largeurFooter + ' px';
-	console.log('largeurFooter = '+largeurFooter);
-	$("#footer-tlv .bgfooterleft").css({
-		'width': largeurFooter,
-		'left': 0
-	});
-	$("#footer-tlv .bgfooterright").css({
-		'width': largeurFooter,
-		'right': 0
-	});
-	
-</script>
 
 </body>
 </html>
