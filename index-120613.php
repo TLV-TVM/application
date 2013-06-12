@@ -25,7 +25,27 @@
 	<link rel="stylesheet" type="text/css" href="css/jqm-calendar.css" /> 
 	<link rel="stylesheet" href="css/main.css" />
 	
+	<?
 	
+	 	$addr_serveur = 'localhost';
+		$login_mysql = 'yoogi_tlv';
+		$pass_mysql = 'tlv83';
+		$nom_bdd = 'yoogi_tlv';
+		
+		
+		$link = mysql_connect($addr_serveur ,$login_mysql, $pass_mysql);
+		if (!$link) {
+		   die('Impossible de se connecter  : ' . mysql_error());
+		}else{
+			//echo "connect&eacute; en persistant";
+		}
+		
+		$db_selected = mysql_select_db($nom_bdd , $link);
+		if (!$db_selected) {
+		   die ('Impossible de sélectionner la base de données : ' . mysql_error());
+	}	
+	
+	?>
 	
 	<script language="javascript">
 		
@@ -236,7 +256,16 @@
 	</div>
 	
 	<div data-role="content" class="page-content-tlv">
+		<?
+		// id Page = 15 --> Tarifs FR
+		$page=15;
+		$strSqlSelectPage = "select *  from pages where id_pages = ".$page;
+		$resultSelectPage = mysql_query($strSqlSelectPage) or die ("Erreur de lecture de la page : ".mysql_error());
+		$rowPage = mysql_fetch_array($resultSelectPage);
+	
+		echo $rowPage['contenu'];
 		
+		?>
 	</div>
 	
 	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
@@ -259,7 +288,46 @@
 		<img src="images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
 		
 		<div class="content">
-		
+		<?
+			$strSqlSelectActuVerif = "select * from alerte_info  where publier = 1  and id_langue=1  order by date_alerte_info desc ";
+			$resultSelectActuVerif = mysql_query($strSqlSelectActuVerif) or die ("Erreur de lecture des actualit&eacute;s");
+			
+			if($nbActu = mysql_num_rows($resultSelectActuVerif)>0){
+	            while($rowActu = mysql_fetch_array($resultSelectActuVerif)){
+		?>
+                      
+        <p>
+        	<h3 style="color:#F00;margin:0px" >
+				<? if($rowActu['lien_next']){
+	
+						$lienActu = "";
+						$lienActu = UrlRewriter(strtolower(stripslashes($rowActu['titre'])));
+						
+						$lienActu = $lienActu."-0-0-0-".$rowActu['id_alerte_info'].".html";
+						$lienActu =str_replace("--","-",$lienActu);
+				?>
+				<a href="<?=$lienActu?>"  class="iframe"><?=stripslashes($rowActu['titre'])?></a>
+	            <? }else{ ?>
+	            <?=stripslashes($rowActu['titre'])?>
+	            <? } ?>
+            </h3>
+            <span class="date"><strong><?=FlipDate($rowActu['date_crea'])?></strong></span>
+        </p>
+        <p><?=stripslashes($rowActu['chapeau'])?></p>
+        <? if($rowActu['lien_next']){
+			$lienActu = "";
+			$lienActu = UrlRewriter(strtolower(stripslashes($rowActu['titre'])));
+			
+			$lienActu = $lienActu."-0-".$rowActu['id_actualite'].".html";
+			$lienActu =str_replace("--","-",$lienActu);
+		?>
+		<!--<p class="suite" align="right"><a href="<?=$lienActu?>"  class="iframe">&gt;  Lire la suite</a></p>--> 
+		<? } ?>
+		&nbsp;
+ 		<?	}
+		}else{ ?>
+			<p align="center">- Aucune alertes pour le moment -</p>	
+		<? } ?>	
 		</div>
 	</div>
 	
@@ -427,9 +495,90 @@
 	<div data-role="content" class="page-content-tlv">
 		<h2>M&eacute;t&eacute;o Hyeres / Porquerolles</h2>
      	<div id="descMeteo">
-      	
+      	<?
+      		$filename = "http://api.meteorologic.net/forecarss?p=Hyeres";
+			if($handle = fopen($filename, "r")){
+				//$contents = fread($handle, filesize($filename));
+				$contents = stream_get_contents($handle);
+				$search = array(' ', "\t", "\n", "\r");
+				$contents = str_replace($search, '', $contents);
+				fclose($handle);
+			}else{
+				$contents = "NO METEO";	
+			}
+		?>
 		</div>
-		
+		<script language="javascript">
+		 	//get Ajax de la m&eacute;t&eacute;o
+			var fluxMeteo;
+			var AffMeteo;
+			
+			
+			$.ajax({
+				url:'proxy.php',
+				dataType:'xml',
+				type:'GET',
+				success:function(xml) {
+					$(xml).find('meteo').each(function() {
+						
+						var DateMeteo =  $(this).attr('date');
+						var PictoMidi = $(this).attr('pictos_midi');
+						var TempMatin = $(this).attr('tempe_matin');
+						var TempMidi = $(this).attr('tempe_midi');
+						var TempSoir = $(this).attr('tempe_soir');
+						
+						//tempe_matin="11.7" namepictos_matin="D&eacute;gag&eacute;"   pictos_matin="soleil" tempe_midi="15.8" namepictos_midi="D&eacute;gag&eacute;" pictos_midi="soleil" tempe_apmidi="17.9" namepictos_apmidi="Nuageux"   pictos_apmidi="nuageux" tempe_soir="16.9" namepictos_soir="Nuageux"   pictos_soir="nuageux" 
+						
+						$("#descMeteo").append("<span class='ladate'>Le "+DateMeteo+"</span><p><img class='"+PictoMidi+"' src='' width='128'  /><br /><span class='info'>Matin : "+TempMatin+"&deg;<br>Midi : "+TempMidi+"&deg;<br>Soir : "+TempSoir+"&deg;<br></span></p><hr>");     
+						
+				   })
+				   ///traitement des pictos
+				   /*
+				   soleil = Ciel d&eacute;gag&eacute;
+					voile = Ciel voil&eacute;
+					nuageux = Ciel nuageux
+					couvert = Ciel couvert
+					brouillard = couvert
+					brouillardgivrant = couvert
+					neifefaible = averseneige
+					neigemoderer = averseneige
+					neigeforte = averseneige
+					pluiefaible = Pluie faible
+					pluiemoderer = pluiefaible
+					pluieforte = pluieforte
+					verglas = Verglas
+					averse = pluiefaible
+					averseneige = averseneige
+					orageloc =orageloc
+					oragefort = Violents orages
+					*/
+					$("img.soleil").attr('src','img/meteo/soleil.png');
+					$("img.voile").attr('src','img/meteo/voile.png');
+					$("img.nuageux").attr('src','img/meteo/nuageux.png');
+					$("img.couvert").attr('src','img/meteo/couvert.png');
+					
+					$("img.brouillard").attr('src','img/meteo/couvert.png');
+					$("img.brouillardgivrant").attr('src','img/meteo/couvert.png');
+					$("img.neifefaible").attr('src','img/meteo/averseneige.png');
+					$("img.neigemoderer").attr('src','img/meteo/averseneige.png');
+					
+					$("img.neigeforte").attr('src','img/meteo/averseneige.png');
+					
+					
+					$("img.pluiefaible").attr('src','img/meteo/pluiefaible.png');
+					$("img.pluiemoderer").attr('src','img/meteo/pluiefaible.png');
+					$("img.pluieforte").attr('src','img/meteo/pluieforte.png');
+					$("img.verglas").attr('src','img/meteo/pluieforte.png');
+					$("img.averse").attr('src','img/meteo/pluiefaible.png');
+					$("img.averseneige").attr('src','img/meteo/averseneige.png');
+					$("img.orageloc").attr('src','img/meteo/orageloc.png');
+					$("img.oragefort").attr('src','img/meteo/orageloc.png');
+				},
+				error:function() {
+					alert("Aucun flux trouv&eacute;");
+				}
+			});
+		</script>
 	</div>
 	
 	<div data-role="footer" data-position="fixed" id="footer-tlv"><div class="bgfooterleft">&nbsp;</div><div id="imgfooter"><img src="img/footer.png" id="img-footer" /></div><div class="bgfooterright">&nbsp;</div></div>
@@ -592,7 +741,24 @@ function shouldRotateToOrientation(interfaceOrientation) {
 
 /////Core
 $("#btnHoraireGo").click(function(){
+	$("#infoHoraire").html("&nbsp;");
+	var idCatLieux = $('select[name=lieu_depart] option:selected').val();
+	var DateDep = $('input[name=date_depart]').val();
+	// alert("DateDep = "+DateDep);
 	
+	var DateTxt = DateDep.split('/');
+		var jour = DateTxt[0];
+		var mois = DateTxt[1];
+		var an = DateTxt[2];
+		
+		$.ajax({
+		  url: 'checkHoraire.php',
+		  type: "POST",
+		  data:{idch:idCatLieux, datedep: ''+an+'-'+mois+'-'+jour },
+		  success: function(htmlReturn) {
+			$('#infoHoraire').html(htmlReturn);
+ 		  }
+		});
 	
 })
 
