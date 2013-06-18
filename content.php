@@ -71,5 +71,7 @@
 		} else { ?>
 			<p align="center">- Aucune alertes pour le moment -</p>	
 		<? }
+	} else {
+		echo 'connection BDD erreur';
 	}
 ?>
