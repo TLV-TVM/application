@@ -454,7 +454,7 @@
 		
 		 
 		$.ajax({
-			url:'proxy.php',
+			url:'http://www.tlv-tvm.com/iphone/proxy.php',
 			dataType:'xml',
 			type:'GET',
 			success:function(xml) {
@@ -705,7 +705,7 @@ $("#btnHoraireGo").click(function(){
 		var an = DateTxt[2];
 		
 		$.ajax({
-		  url: 'checkHoraire.php',
+		  url: 'http://www.tlv-tvm.com/iphone/checkHoraire.php',
 		  type: "POST",
 		  data:{idch:idCatLieux, datedep: ''+an+'-'+mois+'-'+jour },
 		  success: function(htmlReturn) {
