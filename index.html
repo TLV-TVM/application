@@ -239,8 +239,8 @@
 		 	$.ajax({
 				url:'content.php?page=tarifs',
 				type:'GET',
-				success:function(response) {
-					$("#tarification").append(response);	
+				success:function(tarifs) {
+					$("#tarification").append(tarifs);	
 				   })
 				},
 				error:function() {
@@ -275,8 +275,8 @@
 			 	$.ajax({
 					url:'content.php?page=alertesInfo',
 					type:'GET',
-					success:function(response) {
-						$("#infoMeteo").append(response);	
+					success:function(info) {
+						$("#infoMeteo").append(info);	
 					   })
 					},
 					error:function() {
