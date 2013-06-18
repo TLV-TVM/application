@@ -612,6 +612,8 @@
 				<option value="43.0822795,6.1569269">Le Port d'Hyeres</option>
 				<option value="43.0280560,6.1550942">La Tour Fondue</option>
 				<option value="43.003111,6.200658">Embarcad&egrave;re Porquerolles</option>
+				<option value="43.009719,6.382637">Embarcad&egrave;re Port Cros</option>
+				<option value="43.015454,6.434434">Embarcad&egrave;re Levant</option>
 			</select>
 		</p>
 		<p>

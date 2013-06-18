@@ -237,7 +237,7 @@
 		<div id="tarification"></div>
 		<script language="javascript">
 		 	$.ajax({
-				url:'content.php',
+				url:'content.php?page=tarifs',
 				type:'GET',
 				success:function(response) {
 					$("#tarification").append(response);	
@@ -270,7 +270,20 @@
 		<img src="http://www.tlv-tvm.com/images/Visuel-Paoramique-Intemperies.jpg" class="img_border" width="100%" />
 		
 		<div class="content">
-			<p align="center">- Aucune alertes pour le moment -</p>	
+			<div id="infoMeteo"></div>
+			<script language="javascript">
+			 	$.ajax({
+					url:'content.php?page=alertesInfo',
+					type:'GET',
+					success:function(response) {
+						$("#infoMeteo").append(response);	
+					   })
+					},
+					error:function() {
+						alert("Aucune info météo disponible");
+					}
+				});
+			</script>
 		</div>
 	</div>
 	
@@ -547,6 +560,8 @@
 				<option value="43.0822795,6.1569269">Le Port d'Hyeres</option>
 				<option value="43.0280560,6.1550942">La Tour Fondue</option>
 				<option value="43.003111,6.200658">Embarcad&egrave;re Porquerolles</option>
+				<option value="43.009719,6.382637">Embarcad&egrave;re Port Cros</option>
+				<option value="43.015454,6.434434">Embarcad&egrave;re Levant</option>
 			</select>
 		</p>
 		<p>
