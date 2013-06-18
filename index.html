@@ -709,7 +709,7 @@ $("#btnHoraireGo").click(function(){
 		  type: "POST",
 		  data:{idch:idCatLieux, datedep: ''+an+'-'+mois+'-'+jour },
 		  success: function(htmlReturn) {
-			$('#infoHoraire').html(htmlReturn);
+			$('#infoHoraire').append(htmlReturn);
  		  }
 		});
 	
